@@ -51,16 +51,16 @@ export class Category extends Entity<CategoryProps> {
     this.categoryProps.created_at = value ?? new Date();
   }
 
-  public update(name: string, description: string) {
+  public update(name: string, description: string): void {
     this.name = name;
     this.description = description;
   }
 
-  public activate() {
+  public activate(): void {
     this.is_active = true;
   }
 
-  public deactivate() {
+  public deactivate(): void {
     this.is_active = false;
   }
 }
