@@ -1,7 +1,6 @@
 FROM node:latest
 
 # Container user - root
-
 USER node
 
 WORKDIR /home/node/app
