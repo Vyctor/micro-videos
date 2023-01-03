@@ -25,6 +25,7 @@ describe("UniqueEntityId unit tests", () => {
       UniqueEntityId.prototype as any,
       "validateId"
     );
+
     expect(() => new UniqueEntityId(invalidUUID)).toThrow(InvalidUuidError);
     expect(validateSpy).toBeCalled();
   });

@@ -1,4 +1,4 @@
-import { Entity } from "../../../@seedwork/entity/entity";
+import { Entity } from "../../../@seedwork/domain/entity/entity";
 import { UniqueEntityId } from "../../../@seedwork/domain/value-objects/unique-entity-id";
 
 export interface CategoryProps {
