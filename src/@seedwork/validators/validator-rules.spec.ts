@@ -14,26 +14,27 @@ type ExpectedValidationRule = {
   property: string;
 };
 
-function assertIsInvalid({
+function runRule({
   value,
   property,
   rule,
-  error,
   params,
-}: ExpectedRule): void {
-  expect(() => {
-    const validator = ValidatorRules.values(value, property);
-    const method = validator[rule] as (...args: any[]) => ValidatorRules;
-    method.apply(validator, params);
-  }).toThrow(error);
+}: Omit<ExpectedRule, "error">): void {
+  const validator = ValidatorRules.values(value, property);
+  const method = validator[rule] as (...args: any[]) => ValidatorRules;
+  method.apply(validator, params);
 }
 
-function assertIsValid({ value, property, rule, error, params }: ExpectedRule) {
+function assertIsInvalid(expected: ExpectedRule): void {
   expect(() => {
-    const validator = ValidatorRules.values(value, property);
-    const method = validator[rule] as (...args: any[]) => ValidatorRules;
-    method.apply(validator, params);
-  }).not.toThrow(error);
+    runRule(expected);
+  }).toThrow(expected.error);
+}
+
+function assertIsValid(expected: ExpectedRule) {
+  expect(() => {
+    runRule(expected);
+  }).not.toThrow(expected.error);
 }
 
 describe("ValidatorRules Unit Tests", () => {
@@ -141,5 +142,29 @@ describe("ValidatorRules Unit Tests", () => {
 
     validator = ValidatorRules.values(false, "property");
     expect(() => validator.maxLength(5)).toThrow(ValidationError);
+  });
+
+  it("should throw a validation error when combine rules", () => {
+    const validator = ValidatorRules.values("", "property");
+
+    expect(() => {
+      validator.required().string().maxLength(5);
+    }).toThrow(ValidationError);
+
+    expect(() => {
+      validator.required().string().maxLength(5);
+    }).toThrow(new ValidationError("Property property is required"));
+  });
+
+  it("should valid when combine two or more rules", () => {
+    const validator = ValidatorRules.values("value", "property");
+
+    expect(() => {
+      validator.required().string().maxLength(5);
+    }).not.toThrow();
+
+    expect(() => {
+      validator.required().string();
+    }).not.toThrow();
   });
 });
