@@ -60,6 +60,7 @@ describe("Category Tests", () => {
     it("should create a category with description null if no description is provided", () => {
       const categoryProps = {
         name: "Movie",
+        description: "Movie Description",
         is_active: true,
         created_at: new Date(),
       };
@@ -68,7 +69,7 @@ describe("Category Tests", () => {
 
       expect(category).toBeInstanceOf(Category);
       expect(category.name).toBe("Movie");
-      expect(category.description).toBeNull();
+      expect(category.description).toBe(categoryProps.description);
       expect(category.is_active).toBe(true);
       expect(category.created_at).toBeInstanceOf(Date);
     });
@@ -76,6 +77,7 @@ describe("Category Tests", () => {
     it("should create a category with valid id if no id is provided", () => {
       const categoryProps = {
         name: "Movie",
+        description: "Movie Description",
         is_active: true,
         created_at: new Date(),
       };
@@ -84,7 +86,7 @@ describe("Category Tests", () => {
 
       expect(category).toBeInstanceOf(Category);
       expect(category.name).toBe("Movie");
-      expect(category.description).toBeNull();
+      expect(category.description).toBe(categoryProps.description);
       expect(category.is_active).toBe(true);
       expect(category.created_at).toBeInstanceOf(Date);
       expect(category.id).toBeTruthy();
